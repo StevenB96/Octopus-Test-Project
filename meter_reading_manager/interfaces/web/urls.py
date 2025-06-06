@@ -24,4 +24,11 @@ urlpatterns = [
         views.SubmitReadingView.as_view(),
         name="submit-reading"
     ),
+
+    # Create a pdf report for a given meter
+    path(
+        "meters/<int:meter_id>/create-report/",
+        views.CreatePdfReportView.as_view(),
+        name="create-pdf-report",
+    ),
 ]

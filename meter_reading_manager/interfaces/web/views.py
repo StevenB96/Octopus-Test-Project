@@ -2,24 +2,15 @@
 
 from django.views import generic
 from django.urls import reverse_lazy
-from django.shortcuts import redirect
-from rest_framework import serializers
+from django.shortcuts import redirect, get_object_or_404
+from django.contrib import messages
 
-from meter_reading_manager.data.models import Meter, MeterReading
 from meter_reading_manager.interfaces.web.forms import MeterReadingForm
+from meter_reading_manager.interfaces.web.serialisers import MeterReadingSerializer
+from meter_reading_manager.interfaces.tasks.meters.generate_report import generate_report_for_meter
 from meter_reading_manager.application.usecases.meters.submit_reading import submit_meter_reading
 from meter_reading_manager.domain.meters import queries as meter_queries
-
-
-class MeterReadingSerializer(serializers.Serializer):
-    """
-    Serializer for MeterReading model to produce primitives (for template context).
-    """
-    id = serializers.IntegerField()
-    meter_name = serializers.CharField(source="meter.name")
-    reading_value = serializers.DecimalField(max_digits=10, decimal_places=2)
-    reading_date = serializers.DateField()
-    created_at = serializers.DateTimeField(format=None)  # raw datetime object
+from meter_reading_manager.data.models import Meter, MeterReading
 
 
 class MeterListView(generic.ListView):
@@ -104,3 +95,24 @@ class SubmitReadingView(generic.FormView):
 
         # After successful submission, redirect to the meter's readings page
         return redirect("meter_reading_manager:meter-readings", meter_id=meter.id)
+
+
+class CreatePdfReportView(generic.View):
+    """
+    When accessed (e.g. via a button click), this view enqueues a Celery task
+    to build and save a PDF report for the given meter_id.
+    """
+
+    def post(self, request, *args, **kwargs):
+        # Expect meter_id to be passed as part of the URL or POST data
+        meter_id = kwargs.get("meter_id")
+        meter = get_object_or_404(Meter, pk=meter_id)
+        
+        # Enqueue the Celery task
+        task = generate_report_for_meter.delay(meter_id)
+
+        # You could store task.id somewhere if you want to track status
+        messages.success(request, f"Report for '{meter.name}' is being generated in the background.")
+
+        # Redirect back to, e.g., the meter detail page
+        return redirect("meter_reading_manager:meter-readings", args=[meter_id])

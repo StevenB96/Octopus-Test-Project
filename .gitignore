@@ -1,63 +1,90 @@
-# Python bytecode
+# Python
 __pycache__/
 *.py[cod]
-*$py.class
-
-# Django-specific
-*.log
-*.pot
-*.pyc
 *.pyo
-db.sqlite3
-media/
-staticfiles/
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
 .env
+.venv/
+env/
+venv/
 
-# VS Code / PyCharm / other editors
+# VS Code / PyCharm / other IDEs
 .vscode/
 .idea/
 *.sublime-project
 *.sublime-workspace
 
-# Pipenv / Poetry / virtualenv
-Pipfile.lock
-poetry.lock
-*.venv/
-venv/
-ENV/
-env/
-.venv/
-.ENV/
+# Django
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media/
+staticfiles/
+local_settings.py
 
-# OS files
+# Redis dump
+dump.rdb
+
+# Celery worker logs / PID files
+celerybeat-schedule
+celerybeat.pid
+
+# OS
 .DS_Store
 Thumbs.db
 
-# Migrations (optional: uncomment to ignore all migrations)
-# **/migrations/
+# Docker
+*.pid
+*.sock
+*.db
+docker-compose.override.yml
+.env.docker
+
+# Gunicorn
+gunicorn.pid
+
+# Migrations (optional to ignore)
+**/migrations/__pycache__/
+**/migrations/*.pyc
+# Uncomment below to ignore migration files entirely (NOT recommended for teams)
 # **/migrations/*.py
-# !**/migrations/__init__.py
 
-# Coverage / testing
-.coverage
+# Reports
+*.pdf
+
+# Logs
+*.log
+logs/
+
+# Coverage/testing
 htmlcov/
-*.cover
-*.py,cover
-.cache
-nosetests.xml
-coverage.xml
-*.mo
-
-# MyPy / Pylint / Pyright / Ruff
-.mypy_cache/
-.pyright/
+.coverage
+.tox/
+.nox/
 .pytest_cache/
-ruff_cache/
+coverage.xml
 
-# Build artifacts
-dist/
-build/
-*.egg-info/
+# Compiled docs
+docs/_build/
 
-# Jupyter
-.ipynb_checkpoints/
+# MyPy
+.mypy_cache/
+
+# Pipenv
+Pipfile.lock
+
+# Profiling
+.prof
+
+# Misc
+*.bak
+*.tmp
+*.swp
+*.orig

@@ -1,5 +1,3 @@
-{# meter_readings/templates/meters/meter_readings.html #}
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,5 +38,14 @@
 		<a href="{% url 'meter_reading_manager:submit-reading' %}">Submit another reading</a> |
 		<a href="{% url 'meter_reading_manager:meter-list' %}">Back to all meters</a>
 	</p>
+
+	<!-- Trigger Report Generation -->
+	<form
+		method="post"
+		action="{% url 'meter_reading_manager:create-pdf-report' meter_id=meter.id %}"
+	>
+		{% csrf_token %}
+		<button type="submit">Generate PDF Report</button>
+	</form>
 </body>
 </html>
