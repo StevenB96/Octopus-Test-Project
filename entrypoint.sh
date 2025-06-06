@@ -8,7 +8,7 @@ redis-server --daemonize yes
 python manage.py migrate
 
 # Start Celery worker in background
-celery -A octupus_test_project worker --loglevel=info &
+celery -A meter_reading_manager worker --loglevel=info &
 
 # Start Gunicorn to serve Django app (bind to 0.0.0.0:8000)
 gunicorn octupus_test_project.wsgi:application --bind 0.0.0.0:8000
