@@ -4,8 +4,9 @@ set -e
 # Start Redis server in background
 redis-server --daemonize yes
 
-# Run Django migrations (optional)
+# Run Django scripts
 python manage.py migrate
+python manage.py seed_meters
 
 # Start Celery worker in background
 celery -A octupus_test_project worker --loglevel=info &
