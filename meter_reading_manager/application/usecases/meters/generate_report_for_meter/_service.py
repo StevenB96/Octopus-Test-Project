@@ -1,6 +1,6 @@
 # interfaces/tasks/meters/generate_report_task.py
 
-from celery import shared_task
+from meter_reading_manager.celery import shared_task
 
 from meter_reading_manager.application.usecases.meters.generate_and_save_report import generate_and_save_report
 

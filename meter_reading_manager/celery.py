@@ -1,21 +1,14 @@
-# meter_reading_manager/celery.py
-
-from __future__ import absolute_import, unicode_literals
 import os
 from celery import Celery
 
-# Set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'meter_reading_manager.settings')
+# This must point to your correct settings file
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'octupus_test_project.settings')
 
-app = Celery('meter_reading_manager')
+app = Celery('octupus_test_project')
 
-# Using a string here means the worker doesn't have to serialize
-# the configuration object to child processes.
+# Load task modules from all registered Django app configs.
 app.config_from_object('django.conf:settings', namespace='CELERY')
-
-# Autodiscover tasks from all registered Django app configs.
 app.autodiscover_tasks()
-
 
 @app.task(bind=True)
 def debug_task(self):
