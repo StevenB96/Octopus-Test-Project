@@ -2,6 +2,7 @@ FROM python:3.11-slim
 
 # Install Redis server and dependencies for Pillow/ReportLab
 RUN apt-get update && apt-get install -y \
+    dos2unix \
     redis-server \
     libjpeg-dev \
     zlib1g-dev \
@@ -21,6 +22,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 EXPOSE 8000
+
+RUN dos2unix /app/entrypoint.sh
 
 RUN chmod +x /app/entrypoint.sh
 
