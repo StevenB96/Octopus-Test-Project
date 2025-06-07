@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'graphene_django',
     'rest_framework',
     'meter_reading_manager',
     'django.contrib.admin',

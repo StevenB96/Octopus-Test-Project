@@ -11,8 +11,18 @@ def get_last_reading(meter: Meter) -> Optional[MeterReading]:
     return meter.readings.order_by("-reading_date").first()
 
 
+def list_all_meters() -> List[Meter]:
+    """
+    Return Meter instances.
+    """
+    return list(Meter.objects.all())
+
+
 def get_readings_for_meter(meter: Meter) -> List[MeterReading]:
     """
-    Returns all MeterReading instances for the given Meter, ordered by date descending.
+    Return all MeterReading instances for the given Meter,
+    ordered by reading_date descending (newest first).
     """
-    return list(meter.readings.all())
+    # Use the reverse FK relation and explicit ordering
+    qs = meter.readings.order_by("-reading_date")
+    return list(qs)
