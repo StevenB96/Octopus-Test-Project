@@ -115,4 +115,4 @@ class CreatePdfReportView(generic.View):
         messages.success(request, f"Report for '{meter.name}' is being generated in the background.")
 
         # Redirect back to, e.g., the meter detail page
-        return redirect("meter_reading_manager:meter-readings", args=[meter_id])
+        return redirect("meter_reading_manager:meter-readings", meter_id=meter_id)
